@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "210540438958",
+    "project_id": "hungry-jack-ff5b4",
+    "storage_bucket": "hungry-jack-ff5b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210540438958:android:795f676fd1230dc6d3d43f",
+        "android_client_info": {
+          "package_name": "com.example.hungry_jack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210540438958-2t7utv0a0m37d00j758cotvq52uork9b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC65oWn4MHOJaGv8qPsNFXHrqkap1Usl88"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210540438958-2t7utv0a0m37d00j758cotvq52uork9b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
