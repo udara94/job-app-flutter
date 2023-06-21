@@ -1,4 +1,3 @@
-
 class Const {
   Const._();
 
@@ -7,4 +6,11 @@ class Const {
   static const email = "Email";
   static const password = "Password";
   static const dontHaveAccount = "Don't have an account? Sign Up Now";
+
+  //signup screen
+  static const firstName = "First Name";
+  static const lastName = "Last Name";
+  static const mobile = "Mobile";
+  static const signUp = "SignUp";
+  static const alreadyHaveAccount = "Already have an account? Login Now";
 }
