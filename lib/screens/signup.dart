@@ -9,8 +9,11 @@ import 'package:job_app/screens/home.dart';
 import 'package:job_app/utils/common.dart';
 import 'package:job_app/widgets/custom_button.dart';
 import 'package:job_app/widgets/custom_text_form_feild.dart';
+import 'package:provider/provider.dart';
 
+import '../models/navigation.dart';
 import '../models/user.dart';
+import '../provider/navigation_provider.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -200,10 +203,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
   void switchToHome(BuildContext context){
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => const HomeScreen()),
-          (Route<dynamic> route) => false,
-    );
+    // Navigator.pushAndRemoveUntil(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => const HomeScreen()),
+    //       (Route<dynamic> route) => false,
+    // );
+    final provider = Provider.of<NavigationProvider>(context, listen: false);
+    provider.setNavigationItem(NavigationItem.home);
   }
 }

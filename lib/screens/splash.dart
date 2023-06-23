@@ -4,11 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:job_app/bloc/authentication/user/user_bloc.dart';
 import 'package:job_app/bloc/authentication/user/user_event.dart';
 import 'package:job_app/bloc/authentication/user/user_state.dart';
+import 'package:job_app/models/navigation.dart';
 import 'package:job_app/resources/colors.dart';
 import 'package:job_app/resources/images.dart';
 import 'package:job_app/screens/home.dart';
 import 'package:job_app/screens/login.dart';
 import 'package:job_app/utils/common.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/navigation_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -64,12 +68,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void moveToLoginPage(BuildContext context) {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+    final provider = Provider.of<NavigationProvider>(context, listen: false);
+    provider.setNavigationItem(NavigationItem.login);
+    // Navigator.pushReplacement(
+    //     context, MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
   void moveToHomePage(BuildContext context) {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+    final provider = Provider.of<NavigationProvider>(context, listen: false);
+    provider.setNavigationItem(NavigationItem.home);
+    // Navigator.pushReplacement(
+    //     context, MaterialPageRoute(builder: (context) => const HomeScreen()));
   }
 }

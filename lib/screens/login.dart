@@ -11,6 +11,10 @@ import 'package:job_app/screens/signup.dart';
 import 'package:job_app/utils/common.dart';
 import 'package:job_app/widgets/custom_button.dart';
 import 'package:job_app/widgets/custom_text_form_feild.dart';
+import 'package:provider/provider.dart';
+
+import '../models/navigation.dart';
+import '../provider/navigation_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -177,10 +181,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void moveToHomePage(BuildContext context) {
-    Navigator.pushAndRemoveUntil(
-        context, MaterialPageRoute(builder: (context) => const HomeScreen()),
-            (Route<dynamic> route) => false,
-    );
+    // Navigator.pushAndRemoveUntil(
+    //     context, MaterialPageRoute(builder: (context) => const HomeScreen()),
+    //         (Route<dynamic> route) => false,
+    // );
+    final provider = Provider.of<NavigationProvider>(context, listen: false);
+    provider.setNavigationItem(NavigationItem.home);
   }
 
   void signInUser(BuildContext context) async {
