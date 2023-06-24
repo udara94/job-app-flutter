@@ -59,4 +59,14 @@ class FirebaseService {
   Future<void> signOut() async {
     await firebaseAuth.signOut();
   }
+
+  Future<UserProfile> getUserProfile() async {
+    DocumentSnapshot user = await userRef.doc(getUserId()).get();
+    UserProfile profile = UserProfile.fromDocument(user);
+    return profile;
+  }
+
+  String getUserId() {
+    return firebaseAuth.currentUser!.uid;
+  }
 }

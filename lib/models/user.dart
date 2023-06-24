@@ -6,13 +6,15 @@ class UserProfile {
   String email;
   String mobile;
   String password;
+  String? imageUrl;
 
   UserProfile(
       {required this.firstName,
-        required this.lastName,
-        required this.email,
-        required this.mobile,
-        required this.password});
+      required this.lastName,
+      required this.email,
+      required this.mobile,
+      required this.password,
+      required this.imageUrl});
 
   factory UserProfile.fromDocument(DocumentSnapshot doc) {
     return UserProfile(
@@ -20,7 +22,8 @@ class UserProfile {
         lastName: doc.get('lastName') ?? "",
         email: doc.get('email') ?? "",
         mobile: doc.get('mobile') ?? "",
-        password: "");
+        password: "",
+        imageUrl: doc.get('imageUrl') ?? "");
   }
 
   factory UserProfile.fromJson(json) {
@@ -29,7 +32,8 @@ class UserProfile {
         lastName: json['lastName'],
         email: json['email'],
         mobile: json['mobile'],
-        password: json['password']);
+        password: json['password'],
+        imageUrl: json['imageUrl']);
   }
 
   Map<String, dynamic> toMap() {
@@ -38,6 +42,7 @@ class UserProfile {
       'lastName': lastName,
       'email': email,
       'mobile': mobile,
+      'imageUrl': imageUrl,
     };
   }
 }

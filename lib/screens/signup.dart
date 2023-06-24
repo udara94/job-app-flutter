@@ -183,7 +183,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         lastName: _lastNameController.text,
         email: _emailController.text,
         mobile: _mobileController.text,
-        password: _passwordController.text
+        password: _passwordController.text,
+      imageUrl: ""
     );
     BlocProvider.of<SignUpBloc>(context).add(SignUpUser(user));
   }

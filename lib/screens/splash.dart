@@ -5,10 +5,12 @@ import 'package:job_app/bloc/authentication/user/user_bloc.dart';
 import 'package:job_app/bloc/authentication/user/user_event.dart';
 import 'package:job_app/bloc/authentication/user/user_state.dart';
 import 'package:job_app/models/navigation.dart';
+import 'package:job_app/models/user.dart';
 import 'package:job_app/resources/colors.dart';
 import 'package:job_app/resources/images.dart';
 import 'package:job_app/screens/home.dart';
 import 'package:job_app/screens/login.dart';
+import 'package:job_app/services/firebase_service.dart';
 import 'package:job_app/utils/common.dart';
 import 'package:provider/provider.dart';
 
@@ -38,6 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 .add(CheckUserAuthentication());
           }else if(state is UserAuthValid){
             Future.delayed(const Duration(seconds: 3),(){
+              CommonUtils.setUserDetails(context);
               moveToHomePage(context);
             });
           }else if(state is UserAuthInvalid){

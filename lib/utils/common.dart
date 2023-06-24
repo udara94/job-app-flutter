@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:job_app/models/user.dart';
+import 'package:job_app/provider/user.dart';
+import 'package:provider/provider.dart';
 
 class CommonUtils {
   CommonUtils._();
@@ -17,5 +20,16 @@ class CommonUtils {
     if (!currentFocus.hasPrimaryFocus) {
       currentFocus.unfocus();
     }
+  }
+
+  static void setUserDetails(BuildContext context){
+    final provider = Provider.of<UserProvider>(context, listen: false);
+    provider.setUser();
+  }
+
+  static UserProfile? getUser(BuildContext context){
+    final provider = Provider.of<UserProvider>(context);
+    final user = provider.userProfile;
+    return user;
   }
 }
