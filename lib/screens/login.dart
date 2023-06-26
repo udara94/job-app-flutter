@@ -40,6 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
               else if (state is LoginCompleted) {
                 WidgetsBinding.instance!
                     .addPostFrameCallback((timeStamp) {
+                  CommonUtils.setUserDetails(context);
                   moveToHomePage(context);
                 });
               }

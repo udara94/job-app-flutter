@@ -13,4 +13,8 @@ class Const {
   static const mobile = "Mobile";
   static const signUp = "SignUp";
   static const alreadyHaveAccount = "Already have an account? Login Now";
+
+  //profile screen
+  static const editProfile = "Edit Profile";
+  static const saveChanges = "Save Changes";
 }

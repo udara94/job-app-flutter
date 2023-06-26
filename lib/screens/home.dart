@@ -12,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppColors.white,
       appBar: CustomAppBar(
         scaffoldKey: _scaffoldKey,
+        displayProfile: true,
       ),
       body: const Text(
         "Home page",

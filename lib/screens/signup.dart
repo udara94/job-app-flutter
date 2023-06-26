@@ -44,6 +44,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               else if(state is SignUpCompleted){
                 WidgetsBinding.instance!
                     .addPostFrameCallback((timeStamp) {
+                  CommonUtils.setUserDetails(context);
                   switchToHome(context);
                 });
               }else if(state is SignUpError){

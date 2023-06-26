@@ -66,6 +66,15 @@ class FirebaseService {
     return profile;
   }
 
+  Future<void> updateProfile(UserProfile profile)async{
+    await userRef.doc(getUserId()).update({
+      "firstName": profile.firstName,
+      "lastName": profile.lastName,
+      "email": profile.email,
+      "mobile": profile.mobile,
+    });
+  }
+
   String getUserId() {
     return firebaseAuth.currentUser!.uid;
   }

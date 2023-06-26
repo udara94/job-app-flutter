@@ -17,8 +17,8 @@ class CustomNavigationDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var statusBarHeight = MediaQuery.of(context).viewPadding.top;
-    final UserProfile? user = CommonUtils.getUser(context);
-    final FirebaseService _firebaseservice = FirebaseService();
+    final UserProfile user = CommonUtils.getUser(context);
+    final FirebaseService firebaseService = FirebaseService();
     return Drawer(
       child: SingleChildScrollView(
         child: ConstrainedBox(
@@ -31,20 +31,27 @@ class CustomNavigationDrawer extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    user != null && user.imageUrl != null && user.imageUrl != ""
+                    user.imageUrl != null && user.imageUrl != ""
                         ? CircleAvatar(
                             radius: 80,
-                            backgroundImage: NetworkImage(user.imageUrl!))
+                            child: ClipOval(
+                              child: FadeInImage.assetNetwork(
+                                placeholder: ImagesRepo.defaultProfile,
+                                image: user.imageUrl!,
+                                fit: BoxFit.cover,
+                                width: 160,
+                                height: 160,
+                              ),
+                            ),
+                            //backgroundImage: NetworkImage(user.imageUrl!)
+                          )
                         : const CircleAvatar(
                             radius: 80,
                             backgroundImage:
                                 AssetImage(ImagesRepo.defaultProfile)),
                     Padding(
                       padding: const EdgeInsets.only(top: 25),
-                      child: Text(
-                        user != null
-                            ? "${user.firstName} ${user.lastName}"
-                            : "",
+                      child: Text("${user.firstName} ${user.lastName}",
                         style: const TextStyle(
                             color: AppColors.black,
                             fontWeight: FontWeight.bold,
@@ -79,7 +86,7 @@ class CustomNavigationDrawer extends StatelessWidget {
                             borderRadius: BorderRadius.circular(6)),
                         title: const Text("logout"),
                         onTap: () {
-                          _firebaseservice.signOut();
+                          firebaseService.signOut();
                           switchToLoginPage(context);
                         },
                       ),
@@ -120,7 +127,7 @@ class CustomNavigationDrawer extends StatelessWidget {
     provider.setNavigationItem(item);
   }
 
-  void switchToLoginPage(BuildContext context){
+  void switchToLoginPage(BuildContext context) {
     final provider = Provider.of<NavigationProvider>(context, listen: false);
     provider.setNavigationItem(NavigationItem.login);
   }

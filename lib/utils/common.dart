@@ -27,7 +27,7 @@ class CommonUtils {
     provider.setUser();
   }
 
-  static UserProfile? getUser(BuildContext context){
+  static UserProfile getUser(BuildContext context){
     final provider = Provider.of<UserProvider>(context);
     final user = provider.userProfile;
     return user;
