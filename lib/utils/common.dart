@@ -32,4 +32,5 @@ class CommonUtils {
     final user = provider.userProfile;
     return user;
   }
+
 }

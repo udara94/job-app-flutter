@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:job_app/models/job.dart';
 
 import '../models/user.dart';
 
 class FirebaseService {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final CollectionReference userRef =
-  FirebaseFirestore.instance.collection("Users");
+      FirebaseFirestore.instance.collection("Users");
+  final CollectionReference jobRef =
+      FirebaseFirestore.instance.collection("Jobs");
 
   Future<String?> loginUser(String email, String password) async {
     try {
@@ -31,9 +34,9 @@ class FirebaseService {
     try {
       final User? user =
           (await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: userProfile.email,
-            password: userProfile.password,
-          ))
+        email: userProfile.email,
+        password: userProfile.password,
+      ))
               .user;
       if (user != null) {
         await userRef.doc(user.uid).set(userProfile.toMap());
@@ -66,7 +69,16 @@ class FirebaseService {
     return profile;
   }
 
-  Future<void> updateProfile(UserProfile profile)async{
+  Future<List<Job>> getPopularJobs() async {
+    List<Job> jobList = [];
+    QuerySnapshot querySnapshot = await jobRef.limit(10).get();
+    for(var docSnapshot in querySnapshot.docs){
+      jobList.add(Job.fromDocument(docSnapshot));
+    }
+    return jobList;
+  }
+
+  Future<void> updateProfile(UserProfile profile) async {
     await userRef.doc(getUserId()).update({
       "firstName": profile.firstName,
       "lastName": profile.lastName,

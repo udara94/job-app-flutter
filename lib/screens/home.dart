@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:job_app/resources/colors.dart';
+import 'package:job_app/resources/fonts.dart';
 import 'package:job_app/widgets/custom_app_bar.dart';
 import 'package:job_app/widgets/navigation_drawer.dart';
+import 'package:job_app/widgets/nearby_jobs.dart';
+import 'package:job_app/widgets/popular_jobs.dart';
+import 'package:job_app/widgets/welcome.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,9 +26,20 @@ class _HomeScreenState extends State<HomeScreen> {
         scaffoldKey: _scaffoldKey,
         displayProfile: true,
       ),
-      body: const Text(
-        "Home page",
-        style: TextStyle(fontSize: 20),
+      body: SingleChildScrollView(
+        child:  Padding(
+          padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+          child: Column(
+            children: const [
+              WelcomeComponent(),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: PopularJobsComponent(),
+              ),
+              NearbyJobsComponent()
+            ],
+          ),
+        ),
       ),
       drawer: const CustomNavigationDrawer(),
     );

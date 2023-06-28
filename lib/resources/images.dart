@@ -6,4 +6,5 @@ class ImagesRepo{
   static const defaultProfile = "assets/icons/user.png";
   static const backIcon = "assets/icons/chevron-left.png";
   static const camera = "assets/icons/camera.png";
+  static const search = "assets/icons/search.png";
 }
