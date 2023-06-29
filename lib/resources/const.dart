@@ -27,4 +27,7 @@ class Const {
   static const popularJobs = "Popular Jobs";
   static const seeAll = "Show all";
   static const loadingError = "Something went wrong";
+
+  //nearby jobs component
+  static const nearbyJobs = "Nearby Jobs";
 }

@@ -33,10 +33,13 @@ class _HomeScreenState extends State<HomeScreen> {
             children: const [
               WelcomeComponent(),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: EdgeInsets.only(top: 10),
                 child: PopularJobsComponent(),
               ),
-              NearbyJobsComponent()
+              Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: NearbyJobsComponent(),
+              )
             ],
           ),
         ),
