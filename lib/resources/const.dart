@@ -30,4 +30,7 @@ class Const {
 
   //nearby jobs component
   static const nearbyJobs = "Nearby Jobs";
+
+  //search screen
+  static const jobOpportunities = "Job Opportunities";
 }

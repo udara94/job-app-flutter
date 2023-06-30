@@ -3,6 +3,7 @@ import 'package:job_app/models/user.dart';
 import 'package:job_app/resources/colors.dart';
 import 'package:job_app/resources/const.dart';
 import 'package:job_app/resources/images.dart';
+import 'package:job_app/screens/search.dart';
 import 'package:job_app/utils/common.dart';
 
 class WelcomeComponent extends StatefulWidget {
@@ -76,20 +77,28 @@ class _WelcomeComponentState extends State<WelcomeComponent> {
                   ),
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.orangeCream,
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: ColorFiltered(
-                  colorFilter:
-                      const ColorFilter.mode(AppColors.white, BlendMode.srcIn),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      ImagesRepo.search,
-                      width: 32,
-                      height: 32,
+              GestureDetector(
+                onTap: (){
+                  if(searchController.text != ""){
+                    moveToSearchPage(context, searchController.text);
+                  }
+
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.orangeCream,
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: ColorFiltered(
+                    colorFilter:
+                        const ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset(
+                        ImagesRepo.search,
+                        width: 32,
+                        height: 32,
+                      ),
                     ),
                   ),
                 ),
@@ -137,5 +146,10 @@ class _WelcomeComponentState extends State<WelcomeComponent> {
         )
       ],
     );
+  }
+
+  void moveToSearchPage(BuildContext context, String key){
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) =>  SearchScreen(keyWord: key,)));
   }
 }

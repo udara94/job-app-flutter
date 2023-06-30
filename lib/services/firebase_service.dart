@@ -72,10 +72,32 @@ class FirebaseService {
   Future<List<Job>> getPopularJobs() async {
     List<Job> jobList = [];
     QuerySnapshot querySnapshot = await jobRef.limit(10).get();
-    for(var docSnapshot in querySnapshot.docs){
+    for (var docSnapshot in querySnapshot.docs) {
       jobList.add(Job.fromDocument(docSnapshot));
     }
     return jobList;
+  }
+
+  Future<List<Job>> filterJobs(String key) async {
+    List<Job> filteredJobs = [];
+    // QuerySnapshot querySnapshot = await jobRef
+    //     .orderBy("job_title")
+    //     .startAt([key]).endAt([key + '\uf8ff']).get();
+    QuerySnapshot querySnapshot = await jobRef
+        .where("job_title", isGreaterThanOrEqualTo: key)
+        .where("job_title", isLessThanOrEqualTo: key + '\uf8ff')
+        .orderBy("job_title")
+        .get();
+    if (querySnapshot.docs.isNotEmpty) {
+      for (var docSnapshot in querySnapshot.docs) {
+        filteredJobs.add(Job.fromDocument(docSnapshot));
+      }
+    } else {
+      if (kDebugMode) {
+        print('No documents found matching the keyword.');
+      }
+    }
+    return filteredJobs;
   }
 
   Future<void> updateProfile(UserProfile profile) async {
