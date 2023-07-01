@@ -44,6 +44,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: Text(
         title ?? "",
+        style: const TextStyle(color: AppColors.primary),
       ),
       actions: [
         displayProfile != null && displayProfile!

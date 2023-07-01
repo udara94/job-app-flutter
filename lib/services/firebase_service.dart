@@ -78,6 +78,38 @@ class FirebaseService {
     return jobList;
   }
 
+  Future<List<Job>> getSavedJobs() async {
+    List<Job> savedJobList = [];
+    QuerySnapshot querySnapshot =
+        await userRef.doc(getUserId()).collection("SavedJobs").get();
+    for (var docSnapshot in querySnapshot.docs) {
+      savedJobList.add(Job.fromDocument(docSnapshot));
+    }
+    return savedJobList;
+  }
+
+  Future<void> saveJob(Job job) async {
+    await userRef
+        .doc(getUserId())
+        .collection("SavedJobs")
+        .doc(job.jobId)
+        .set(job.toMap());
+  }
+
+  Future<void> removeSavedJob(String jobId) async {
+    await userRef.doc(getUserId()).collection("SavedJobs").doc(jobId).delete();
+  }
+
+  Future<bool> isJobSaved(String jobId) async {
+    DocumentSnapshot snapshot =
+        await userRef.doc(getUserId()).collection("SavedJobs").doc(jobId).get();
+    if (snapshot.exists) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<List<Job>> filterJobs(String key) async {
     List<Job> filteredJobs = [];
     // QuerySnapshot querySnapshot = await jobRef

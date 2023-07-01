@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Job {
-  String? employerName; //
-  String? employerLogo; //
-  String? jobId; //
-  String? jobEmploymentType; //
-  String? jobTitle; //
-  String? jobApplyLink; //
-  String? jobDescription; //
-  String? jobCountry; //
-  String? jobGoogleLink; //
-  JobHighlights? jobHighlights; //
+  String? employerName;
+  String? employerLogo;
+  String? jobId;
+  String? jobEmploymentType;
+  String? jobTitle;
+  String? jobApplyLink;
+  String? jobDescription;
+  String? jobCountry;
+  String? jobGoogleLink;
+  JobHighlights? jobHighlights;
 
   Job({
     this.employerName,
@@ -53,6 +53,21 @@ class Job {
       jobHighlights: JobHighlights.fromJson(json['job_highlights']),
     );
   }
+
+  Map<String, dynamic> toMap(){
+    return {
+      'employer_name': employerName,
+      'employer_logo': employerLogo,
+      'job_id':jobId,
+      'job_employment_type': jobEmploymentType,
+      'job_title': jobTitle,
+      'job_apply_link': jobApplyLink,
+      'job_description': jobDescription,
+      'job_country': jobCountry,
+      'job_google_link': jobGoogleLink,
+      'job_highlights': jobHighlights?.toMap(),
+    };
+  }
 }
 
 class JobHighlights {
@@ -82,6 +97,12 @@ class JobHighlights {
     );
   }
 
+  Map<String, dynamic> toMap(){
+    return {
+      'Qualifications': qualifications,
+      'Responsibilities': responsibilities,
+    };
+  }
   factory JobHighlights.fromJson(Map<String, dynamic> json) {
     return JobHighlights(
       qualifications: List<String>.from(json['Qualifications'] ?? []),

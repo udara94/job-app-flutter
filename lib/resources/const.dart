@@ -41,4 +41,7 @@ class Const {
   static const aboutJob = "About the job:";
   static const applyJob = "Apply for Job";
 
+  //save job screen
+  static const savedJobs = "Saved Jobs";
+
 }
