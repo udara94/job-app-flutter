@@ -120,7 +120,7 @@ class _WelcomeComponentState extends State<WelcomeComponent> {
                   });
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding:  EdgeInsets.only(top: 8, bottom: 8, right: 8, left: index == 0? 0: 8),
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.white,

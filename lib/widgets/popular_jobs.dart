@@ -6,6 +6,7 @@ import 'package:job_app/bloc/jobs/jobs_state.dart';
 import 'package:job_app/resources/colors.dart';
 import 'package:job_app/resources/const.dart';
 import 'package:job_app/resources/images.dart';
+import 'package:job_app/screens/job_details.dart';
 import 'package:job_app/utils/common.dart';
 
 import '../models/job.dart';
@@ -130,82 +131,96 @@ class PopularJobsComponent extends StatelessWidget {
             itemCount: jobList.length,
             itemBuilder: (BuildContext context, int index) {
               Job item = jobList[index];
-              return Container(
-                width: CommonUtils.getDeviceWidth(context) * 0.6,
-                margin: index == 0
-                    ? const EdgeInsets.only(
-                        left: 2, top: 8, bottom: 8, right: 0)
-                    : const EdgeInsets.all(8),
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: AppColors.white,
-                    boxShadow: const [
-                      BoxShadow(
-                        offset: Offset(0, 2),
-                        color: AppColors.lightAsh,
-                        blurRadius: 4.0,
-                        spreadRadius: 0.4,
-                      )
-                    ]),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              color: AppColors.lightAsh,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: item.employerLogo != null &&
-                                  item.employerLogo != ""
-                              ? FadeInImage.assetNetwork(
-                                  height: 50,
-                                  width: 50,
-                                  placeholder: ImagesRepo.appLogo,
-                                  image: item.employerLogo!)
-                              : Image.asset(
-                                  ImagesRepo.appLogo,
-                                  height: 50,
-                                  width: 50,
-                                ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Text(
-                            jobList[index].employerName ?? "",
+              return GestureDetector(
+                onTap: () {
+                  moveToJobDetailsScreen(context, item);
+                },
+                child: Container(
+                  width: CommonUtils.getDeviceWidth(context) * 0.6,
+                  margin: index == 0
+                      ? const EdgeInsets.only(
+                          left: 2, top: 8, bottom: 8, right: 0)
+                      : const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: AppColors.white,
+                      boxShadow: const [
+                        BoxShadow(
+                          offset: Offset(0, 2),
+                          color: AppColors.lightAsh,
+                          blurRadius: 4.0,
+                          spreadRadius: 0.4,
+                        )
+                      ]),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                color: AppColors.lightAsh,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: item.employerLogo != null &&
+                                    item.employerLogo != ""
+                                ? FadeInImage.assetNetwork(
+                                    height: 50,
+                                    width: 50,
+                                    placeholder: ImagesRepo.appLogo,
+                                    image: item.employerLogo!,
+                                    imageErrorBuilder:
+                                        (context, error, stackTrace) {
+                                      return Image.asset(
+                                        ImagesRepo.appLogo,
+                                        height: 50,
+                                        width: 50,
+                                      );
+                                    },
+                                  )
+                                : Image.asset(
+                                    ImagesRepo.appLogo,
+                                    height: 50,
+                                    width: 50,
+                                  ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              jobList[index].employerName ?? "",
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: AppColors.lightAsh,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.jobTitle ?? "",
                             overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: AppColors.primary,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            item.jobCountry ?? "",
                             style: const TextStyle(
                               color: AppColors.lightAsh,
                               fontSize: 16,
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item.jobTitle ?? "",
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: AppColors.primary,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          item.jobCountry ?? "",
-                          style: const TextStyle(
-                            color: AppColors.lightAsh,
-                            fontSize: 16,
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
@@ -213,5 +228,14 @@ class PopularJobsComponent extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void moveToJobDetailsScreen(BuildContext context, Job job) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => JobDetailScreen(
+                  job: job,
+                )));
   }
 }

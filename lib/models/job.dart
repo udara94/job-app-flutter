@@ -36,7 +36,7 @@ class Job {
       jobDescription: doc['job_description'] ?? "",
       jobCountry: doc['job_country'] ?? "",
       jobGoogleLink: doc['job_google_link'] ?? "",
-      jobHighlights: JobHighlights.fromDocument(doc),
+      jobHighlights: JobHighlights.fromMap(doc['job_highlights']),
     );
   }
 
@@ -68,8 +68,17 @@ class JobHighlights {
     final data = doc.data() as Map<String, dynamic>?;
 
     return JobHighlights(
-      qualifications: List<String>.from(data?['Qualifications'] ?? []),
-      responsibilities: List<String>.from(data?['Responsibilities'] ?? []),
+      qualifications: List<String>.from(doc['Qualifications'] ?? []),
+      responsibilities: List<String>.from(doc['Responsibilities'] ?? []),
+    );
+  }
+
+  factory JobHighlights.fromMap(Map<String, dynamic>? map) {
+    if (map == null) return JobHighlights();
+
+    return JobHighlights(
+      qualifications: List<String>.from(map['Qualifications'] ?? []),
+      responsibilities: List<String>.from(map['Responsibilities'] ?? []),
     );
   }
 

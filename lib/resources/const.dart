@@ -33,4 +33,12 @@ class Const {
 
   //search screen
   static const jobOpportunities = "Job Opportunities";
+
+  //job details
+  static const about = "About";
+  static const qualification = "Qualification";
+  static const responsibilities = "Responsibilities";
+  static const aboutJob = "About the job:";
+  static const applyJob = "Apply for Job";
+
 }
