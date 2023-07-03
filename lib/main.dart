@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:job_app/models/navigation.dart';
 import 'package:job_app/provider/navigation_provider.dart';
 import 'package:job_app/provider/user.dart';
+import 'package:job_app/resources/colors.dart';
 import 'package:job_app/resources/fonts.dart';
 import 'package:job_app/screens/home.dart';
 import 'package:job_app/screens/login.dart';
@@ -13,6 +15,10 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: AppColors.white,
+    statusBarIconBrightness: Brightness.dark
+  ));
   runApp(const MyApp());
 }
 
