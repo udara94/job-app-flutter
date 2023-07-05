@@ -14,7 +14,7 @@ class JobsBloc extends Bloc<JobsEvent, JobState>{
     on<GetJobs>((event, emit) async{
       try{
         emit(JobsInProgress());
-        List<Job> jobList = await _firebaseFirestore.getPopularJobs();
+        List<Job> jobList = await _firebaseFirestore.getJobs(event.limit, event.lastJob, event.startJob);
         emit(JobsCompleted(jobList));
       }catch(e){
         if(kDebugMode){

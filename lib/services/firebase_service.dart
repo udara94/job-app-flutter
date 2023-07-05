@@ -69,9 +69,21 @@ class FirebaseService {
     return profile;
   }
 
-  Future<List<Job>> getPopularJobs() async {
+  Future<List<Job>> getJobs(int? limit, Job? lastJob, Job? startJob) async {
     List<Job> jobList = [];
-    QuerySnapshot querySnapshot = await jobRef.limit(10).get();
+    Query query = jobRef
+        .orderBy("job_posted_at_timestamp", descending: true)
+    .orderBy("job_id")
+        .limit(limit ?? 10);
+
+    if(lastJob != null){
+      query = query.startAfter([lastJob.jobPostedAtTimestamp, lastJob.jobId]);
+    }
+    if(startJob != null){
+      query = query.endBefore([startJob.jobPostedAtTimestamp, startJob.jobId]).limitToLast(10);
+    }
+    QuerySnapshot querySnapshot = await query.get();
+
     for (var docSnapshot in querySnapshot.docs) {
       jobList.add(Job.fromDocument(docSnapshot));
     }

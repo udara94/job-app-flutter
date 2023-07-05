@@ -10,6 +10,7 @@ class Job {
   String? jobDescription;
   String? jobCountry;
   String? jobGoogleLink;
+  int? jobPostedAtTimestamp;
   JobHighlights? jobHighlights;
 
   Job({
@@ -23,6 +24,7 @@ class Job {
     this.jobCountry,
     this.jobGoogleLink,
     this.jobHighlights,
+    this.jobPostedAtTimestamp
   });
 
   factory Job.fromDocument(DocumentSnapshot doc) {
@@ -37,6 +39,7 @@ class Job {
       jobCountry: doc['job_country'] ?? "",
       jobGoogleLink: doc['job_google_link'] ?? "",
       jobHighlights: JobHighlights.fromMap(doc['job_highlights']),
+      jobPostedAtTimestamp: doc['job_posted_at_timestamp']
     );
   }
 
@@ -66,6 +69,23 @@ class Job {
       'job_country': jobCountry,
       'job_google_link': jobGoogleLink,
       'job_highlights': jobHighlights?.toMap(),
+      'job_posted_at_timestamp': jobPostedAtTimestamp,
+    };
+  }
+
+  Map<String, Object?> toJson(){
+    return {
+      'employer_name': employerName,
+      'employer_logo': employerLogo,
+      'job_id':jobId,
+      'job_employment_type': jobEmploymentType,
+      'job_title': jobTitle,
+      'job_apply_link': jobApplyLink,
+      'job_description': jobDescription,
+      'job_country': jobCountry,
+      'job_google_link': jobGoogleLink,
+      'job_highlights': jobHighlights?.toJson(),
+      'job_posted_at_timestamp': jobPostedAtTimestamp,
     };
   }
 }
@@ -98,6 +118,13 @@ class JobHighlights {
   }
 
   Map<String, dynamic> toMap(){
+    return {
+      'Qualifications': qualifications,
+      'Responsibilities': responsibilities,
+    };
+  }
+
+  Map<String, Object?> toJson(){
     return {
       'Qualifications': qualifications,
       'Responsibilities': responsibilities,

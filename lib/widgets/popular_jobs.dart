@@ -10,6 +10,7 @@ import 'package:job_app/screens/job_details.dart';
 import 'package:job_app/utils/common.dart';
 
 import '../models/job.dart';
+import '../screens/see_all.dart';
 
 class PopularJobsComponent extends StatelessWidget {
   const PopularJobsComponent({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class PopularJobsComponent extends StatelessWidget {
       child: BlocBuilder<JobsBloc, JobState>(
         builder: (BuildContext context, JobState state) {
           if (state is JobsEmpty) {
-            BlocProvider.of<JobsBloc>(context).add(GetJobs());
+            BlocProvider.of<JobsBloc>(context).add(GetJobs(10, null, null));
           } else if (state is JobsInProgress) {
             return Column(
               children: [
@@ -108,19 +109,24 @@ class PopularJobsComponent extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Text(
+          children: [
+            const Text(
               Const.popularJobs,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: AppColors.primary,
                   fontSize: 20),
             ),
-            Text(Const.seeAll,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.lightAsh,
-                    fontSize: 16))
+            GestureDetector(
+              onTap: () {
+                moveToSeeAllScreen(context, Const.popularJobs);
+              },
+              child: const Text(Const.seeAll,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.lightAsh,
+                      fontSize: 16)),
+            )
           ],
         ),
         SizedBox(
@@ -237,5 +243,12 @@ class PopularJobsComponent extends StatelessWidget {
             builder: (context) => JobDetailScreen(
                   job: job,
                 )));
+  }
+
+  void moveToSeeAllScreen(BuildContext context, String title) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SeeAllJobsScreen(title: title)));
   }
 }

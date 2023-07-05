@@ -10,6 +10,7 @@ import '../resources/colors.dart';
 import '../resources/const.dart';
 import '../resources/images.dart';
 import '../screens/job_details.dart';
+import '../screens/see_all.dart';
 
 class NearbyJobsComponent extends StatelessWidget {
   const NearbyJobsComponent({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class NearbyJobsComponent extends StatelessWidget {
         child: BlocBuilder<JobsBloc, JobState>(
           builder: (BuildContext context, JobState state) {
             if (state is JobsEmpty) {
-              BlocProvider.of<JobsBloc>(context).add(GetJobs());
+              BlocProvider.of<JobsBloc>(context).add(GetJobs(10, null, null));
             } else if (state is JobsInProgress) {
               return Column(
                 children: [
@@ -107,8 +108,8 @@ class NearbyJobsComponent extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Text(
+          children:  [
+            const Text(
               Const.nearbyJobs,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -116,12 +117,17 @@ class NearbyJobsComponent extends StatelessWidget {
                 fontSize: 20,
               ),
             ),
-            Text(
-              Const.seeAll,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: AppColors.lightAsh,
-                fontSize: 16,
+            GestureDetector(
+              onTap: (){
+                moveToSeeAllScreen(context, Const.nearbyJobs);
+              },
+              child: const Text(
+                Const.seeAll,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.lightAsh,
+                  fontSize: 16,
+                ),
               ),
             ),
           ],
@@ -135,7 +141,7 @@ class NearbyJobsComponent extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               Job item = jobList[index];
               return GestureDetector(
-                onTap: (){
+                onTap: () {
                   moveToJobDetailsScreen(context, item);
                 },
                 child: Container(
@@ -161,26 +167,27 @@ class NearbyJobsComponent extends StatelessWidget {
                           color: AppColors.lightAsh,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: item.employerLogo != null &&
-                                item.employerLogo != ""
-                            ? FadeInImage.assetNetwork(
-                                height: 50,
-                                width: 50,
-                                placeholder: ImagesRepo.appLogo,
-                                image: item.employerLogo!,
-                                imageErrorBuilder: (context, error, stackTrace) {
-                                  return Image.asset(
+                        child:
+                            item.employerLogo != null && item.employerLogo != ""
+                                ? FadeInImage.assetNetwork(
+                                    height: 50,
+                                    width: 50,
+                                    placeholder: ImagesRepo.appLogo,
+                                    image: item.employerLogo!,
+                                    imageErrorBuilder:
+                                        (context, error, stackTrace) {
+                                      return Image.asset(
+                                        ImagesRepo.appLogo,
+                                        height: 50,
+                                        width: 50,
+                                      );
+                                    },
+                                  )
+                                : Image.asset(
                                     ImagesRepo.appLogo,
                                     height: 50,
                                     width: 50,
-                                  );
-                                },
-                              )
-                            : Image.asset(
-                                ImagesRepo.appLogo,
-                                height: 50,
-                                width: 50,
-                              ),
+                                  ),
                       ),
                       const SizedBox(width: 20),
                       // Add some spacing between the logo and text
@@ -225,7 +232,14 @@ class NearbyJobsComponent extends StatelessWidget {
         context,
         MaterialPageRoute(
             builder: (context) => JobDetailScreen(
-              job: job,
-            )));
+                  job: job,
+                )));
+  }
+
+  void moveToSeeAllScreen(BuildContext context, String title) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SeeAllJobsScreen(title: title)));
   }
 }
