@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:job_app/utils/common.dart';
 
 import '../resources/colors.dart';
 import '../resources/images.dart';
@@ -18,6 +19,7 @@ class CustomPagination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = CommonUtils.getCustomTheme(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Row(
@@ -30,13 +32,13 @@ class CustomPagination extends StatelessWidget {
             },
             child: Container(
               decoration: BoxDecoration(
-                color: pageNumber == 1? AppColors.lightAsh : AppColors.orangeCream,
+                color: pageNumber == 1? theme.uiColors.disabled : theme.bgColors.tertiary,
                 borderRadius: BorderRadius.circular(6),
               ),
               margin: const EdgeInsets.symmetric(horizontal: 10),
               child: ColorFiltered(
                   colorFilter:
-                      const ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+                       ColorFilter.mode(theme.textColors.inverse, BlendMode.srcIn),
                   child: Image.asset(
                     ImagesRepo.backIcon,
                     width: 30,
@@ -47,13 +49,13 @@ class CustomPagination extends StatelessWidget {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-              color: AppColors.white,
+              color: theme.bgColors.primary,
               borderRadius: BorderRadius.circular(6),
             ),
             child: Text(
               pageNumber.toString(),
-              style: const TextStyle(
-                  color: AppColors.primary, fontWeight: FontWeight.bold),
+              style:  TextStyle(
+                  color: theme.textColors.primary, fontWeight: FontWeight.bold),
             ),
           ),
           GestureDetector(
@@ -64,12 +66,12 @@ class CustomPagination extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
-                color: allowMoveForward? AppColors.orangeCream: AppColors.lightAsh,
+                color: allowMoveForward? theme.bgColors.tertiary: theme.uiColors.disabled,
                 borderRadius: BorderRadius.circular(6),
               ),
               child: ColorFiltered(
                   colorFilter:
-                      const ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+                       ColorFilter.mode(theme.textColors.inverse, BlendMode.srcIn),
                   child: Image.asset(
                     ImagesRepo.forwardIcon,
                     width: 30,

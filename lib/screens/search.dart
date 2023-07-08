@@ -21,20 +21,27 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
+    final theme = CommonUtils.getCustomTheme(context);
     final double appBarHeight = AppBar().preferredSize.height;
     final statusBarHeight = MediaQuery.of(context).viewPadding.top;
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: theme.bgColors.primary,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: theme.bgColors.primary,
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: IconButton(
-            icon: Image.asset(ImagesRepo.backIcon),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+          child: Container(
+            decoration: BoxDecoration(
+                color: theme.commonColors.primary,
+                borderRadius: BorderRadius.circular(6)
+            ),
+            child: IconButton(
+              icon: Image.asset(ImagesRepo.backIcon),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ),
         ),
       ),
@@ -52,17 +59,17 @@ class _SearchScreenState extends State<SearchScreen> {
               children: [
                 Text(
                   widget.keyWord,
-                  style: const TextStyle(
+                  style:  TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primary),
+                      color: theme.textColors.primary),
                 ),
-                const Text(
+                 Text(
                   Const.jobOpportunities,
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primary),
+                      color: theme.textColors.primary),
                 ),
                 BlocProvider<FilterJobBloc>(
                   create: (BuildContext context) => FilterJobBloc(),
@@ -90,6 +97,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget buildFilteredJobList(BuildContext context, List<Job> filteredJobList) {
+    final theme = CommonUtils.getCustomTheme(context);
     return Expanded(
       child: SingleChildScrollView(
         child: ListView.builder(
@@ -104,11 +112,11 @@ class _SearchScreenState extends State<SearchScreen> {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: AppColors.white,
-                boxShadow: const [
+                color: theme.cardColors.card,
+                boxShadow:  [
                   BoxShadow(
-                    offset: Offset(0, 2),
-                    color: AppColors.lightAsh,
+                    offset: const Offset(1, 1),
+                    color: theme.uiColors.disabled,
                     blurRadius: 4.0,
                     spreadRadius: 0.4,
                   )
@@ -150,8 +158,8 @@ class _SearchScreenState extends State<SearchScreen> {
                       children: [
                         Text(
                           item.jobTitle ?? "",
-                          style: const TextStyle(
-                            color: AppColors.primary,
+                          style:  TextStyle(
+                            color: theme.textColors.primary,
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                           ),
@@ -159,8 +167,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                         Text(
                           item.jobEmploymentType ?? "",
-                          style: const TextStyle(
-                            color: AppColors.lightAsh,
+                          style: TextStyle(
+                            color: theme.textColors.label,
                             fontSize: 12,
                           ),
                           overflow: TextOverflow.ellipsis,

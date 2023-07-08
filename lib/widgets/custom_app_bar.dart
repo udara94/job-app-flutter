@@ -20,9 +20,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final UserProfile user = CommonUtils.getUser(context);
+    final theme = CommonUtils.getCustomTheme(context);
     return AppBar(
       elevation: 0,
-      backgroundColor: AppColors.white,
+      backgroundColor: theme.bgColors.primary,
       leading: GestureDetector(
         onTap: () {
           scaffoldKey.currentState?.openDrawer();
@@ -31,7 +32,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           padding: const EdgeInsets.all(10.0),
           child: Container(
             decoration: BoxDecoration(
-                color: AppColors.white,
+                color: theme.commonColors.primary,
                 borderRadius: BorderRadius.circular(10)),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -45,7 +46,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: Text(
         title ?? "",
-        style: const TextStyle(color: AppColors.primary),
+        style:  TextStyle(color: theme.textColors.primary),
       ),
       actions: [
         displayProfile != null && displayProfile!

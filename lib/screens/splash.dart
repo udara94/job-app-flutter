@@ -31,6 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = CommonUtils.getCustomTheme(context);
     return BlocProvider<UserAuthBloc>(
       create: (BuildContext context) => UserAuthBloc(),
       child: BlocBuilder<UserAuthBloc, UserAuthState>(
@@ -53,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
             }
           }
           return Scaffold(
-            backgroundColor: AppColors.white,
+            backgroundColor: theme.bgColors.primary,
             body: Center(
                 child: Container(
               width: CommonUtils.getDeviceWidth(context) * 0.7,

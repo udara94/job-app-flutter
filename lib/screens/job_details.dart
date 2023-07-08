@@ -42,36 +42,51 @@ class _JobDetailScreenState extends State<JobDetailScreen>
   @override
   Widget build(BuildContext context) {
     final item = widget.job;
+    final theme = CommonUtils.getCustomTheme(context);
     return BlocProvider<SaveJobBloc>(
       create: (BuildContext context) => SaveJobBloc(),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: AppColors.white,
+          backgroundColor: theme.bgColors.primary,
           elevation: 0,
           leading: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: IconButton(
-              icon: Image.asset(ImagesRepo.backIcon),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+            child: Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: theme.commonColors.primary,
+                  borderRadius: BorderRadius.circular(6)
+                ),
+                child: IconButton(
+                  icon: Image.asset(ImagesRepo.backIcon),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
             ),
           ),
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                icon: Image.asset(ImagesRepo.share),
-                onPressed: () {
-                  item.jobApplyLink != null && item.jobApplyLink != ""
-                      ? _shareJob(context, item.jobApplyLink!)
-                      : {};
-                },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: theme.commonColors.primary,
+                    borderRadius: BorderRadius.circular(6)
+                ),
+                child: IconButton(
+                  icon: Image.asset(ImagesRepo.share),
+                  onPressed: () {
+                    item.jobApplyLink != null && item.jobApplyLink != ""
+                        ? _shareJob(context, item.jobApplyLink!)
+                        : {};
+                  },
+                ),
               ),
             ),
           ],
         ),
-        backgroundColor: AppColors.white,
+        backgroundColor: theme.bgColors.primary,
         body: Stack(
           children: [
             SingleChildScrollView(
@@ -82,12 +97,12 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                          color: AppColors.white,
+                          color: theme.bgColors.quaternary,
                           borderRadius: BorderRadius.circular(10),
-                          boxShadow: const [
+                          boxShadow:  [
                             BoxShadow(
-                              offset: Offset(0, 2),
-                              color: AppColors.lightAsh,
+                              offset: const Offset(1, 1),
+                              color: theme.uiColors.disabled,
                               blurRadius: 4.0,
                               spreadRadius: 0.4,
                             )
@@ -114,10 +129,10 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                     ),
                     Text(
                       item.jobTitle ?? "",
-                      style: const TextStyle(
+                      style:  TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 22,
-                          color: AppColors.primary),
+                          color: theme.textColors.primary),
                       textAlign: TextAlign.center,
                     ),
                     Row(
@@ -125,32 +140,36 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                       children: [
                         Text(
                           item.employerName ?? "",
-                          style: const TextStyle(
+                          style:  TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: AppColors.primary),
+                              color: theme.textColors.primary),
                           textAlign: TextAlign.center,
                         ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5),
+                         Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
                             "/",
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.primary),
+                                color: theme.textColors.primary),
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        Image.asset(
-                          ImagesRepo.location,
-                          width: 20,
-                          height: 20,
+                        ColorFiltered(
+                          colorFilter:  ColorFilter.mode(
+                              theme.uiColors.disabled, BlendMode.srcIn),
+                          child: Image.asset(
+                            ImagesRepo.location,
+                            width: 20,
+                            height: 20,
+                          ),
                         ),
                         Text(
                           item.jobCountry ?? "",
                           style:
-                              const TextStyle(fontSize: 16, color: AppColors.ash),
+                               TextStyle(fontSize: 16, color: theme.textColors.label),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -165,11 +184,11 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                         });
                       },
                       indicator: BoxDecoration(
-                        color: AppColors.primary,
+                        color: theme.uiColors.primary,
                         // Set the color of the selected tab indicator
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      unselectedLabelColor: AppColors.lightAsh,
+                      unselectedLabelColor: theme.uiColors.disabled,
                       controller: _tabController,
                       tabs: const [
                         Tab(text: Const.about),
@@ -186,18 +205,19 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
+                                   Text(
                                     Const.aboutJob,
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
-                                        color: AppColors.primary),
+                                        color: theme.textColors.primary),
                                     textAlign: TextAlign.start,
                                   ),
                                   const SizedBox(
                                     height: 20,
                                   ),
                                   Text(item.jobDescription ?? "N/A",
+                                      style: TextStyle(color: theme.textColors.label),
                                       textAlign: TextAlign.start),
                                 ],
                               ),
@@ -212,12 +232,12 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
+                                       Text(
                                         "${Const.qualification}:",
                                         style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
-                                            color: AppColors.primary),
+                                            color: theme.textColors.primary),
                                         textAlign: TextAlign.start,
                                       ),
                                       const SizedBox(
@@ -246,11 +266,14 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                                                       const EdgeInsets.symmetric(
                                                           vertical: 10),
                                                   child: Text(
-                                                      "$bullet $qualification."),
+                                                      "$bullet $qualification.",
+                                                    style: TextStyle(color: theme.textColors.label),),
                                                 );
                                               })
-                                          : const Text("N/A",
-                                              textAlign: TextAlign.start)
+                                          :  Text("N/A",
+                                        style: TextStyle(color: theme.textColors.label),
+                                              textAlign: TextAlign.start,
+                                      )
                                     ],
                                   ),
                                 ),
@@ -263,12 +286,12 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
+                                       Text(
                                         "${Const.responsibilities}:",
                                         style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
-                                            color: AppColors.primary),
+                                            color: theme.textColors.primary),
                                         textAlign: TextAlign.start,
                                       ),
                                       const SizedBox(
@@ -297,10 +320,12 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                                                       const EdgeInsets.symmetric(
                                                           vertical: 10),
                                                   child: Text(
-                                                      "$bullet $responsibilities."),
+                                                      "$bullet $responsibilities.",
+                                                      style: TextStyle(color: theme.textColors.label),),
                                                 );
                                               })
-                                          : const Text("N/A",
+                                          :  Text("N/A",
+                                          style: TextStyle(color: theme.textColors.label),
                                               textAlign: TextAlign.start)
                                     ],
                                   ),
@@ -313,7 +338,7 @@ class _JobDetailScreenState extends State<JobDetailScreen>
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                color: AppColors.white,
+                color: theme.bgColors.primary,
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -321,7 +346,7 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.orangeCream),
+                            border: Border.all(color: theme.bgColors.tertiary),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(12))),
                         child: BlocBuilder<SaveJobBloc, SaveJobState>(
@@ -335,8 +360,8 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                                   _performJobSaveAction(context,item, state.isSaved);
                                 },
                                 child: ColorFiltered(
-                                  colorFilter: const ColorFilter.mode(
-                                      AppColors.orangeCream, BlendMode.srcIn),
+                                  colorFilter:  ColorFilter.mode(
+                                      theme.bgColors.tertiary, BlendMode.srcIn),
                                   child: Padding(
                                     padding: const EdgeInsets.all(15.0),
                                     child: Image.asset(
@@ -349,8 +374,8 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                               );
                             }
                             return ColorFiltered(
-                              colorFilter: const ColorFilter.mode(
-                                  AppColors.orangeCream, BlendMode.srcIn),
+                              colorFilter: ColorFilter.mode(
+                                  theme.bgColors.tertiary, BlendMode.srcIn),
                               child: Padding(
                                 padding: const EdgeInsets.all(15.0),
                                 child: Image.asset(ImagesRepo.heartOutline,
@@ -375,9 +400,9 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                           },
                           borderRadius: 15,
                           verticalPadding: 15,
-                          textColor: AppColors.white,
+                          textColor: theme.textColors.inverse,
                           textSize: 16,
-                          backgroundColor: AppColors.orangeCream,
+                          backgroundColor: theme.bgColors.tertiary,
                         ),
                       )
                     ],

@@ -32,6 +32,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = CommonUtils.getCustomTheme(context);
     return BlocProvider<SignUpBloc>(
       create: (BuildContext context) => SignUpBloc(),
       child: BlocBuilder<SignUpBloc, SignUpState>(
@@ -52,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               }
             },
             child: Scaffold(
-              backgroundColor: AppColors.white,
+              backgroundColor: theme.bgColors.primary,
               body: Center(
                   child: SingleChildScrollView(
                       child: ConstrainedBox(
@@ -136,9 +137,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       },
                                       borderRadius: 15,
                                       verticalPadding: 10,
-                                      textColor: AppColors.white,
+                                      textColor: theme.commonColors.primary,
                                       textSize: 16,
-                                      backgroundColor: AppColors.primary,
+                                      backgroundColor: theme.buttonColors.primary,
                                     ),
                                   )
                                 ],
@@ -148,7 +149,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               onTap: (){
                                 Navigator.pop(context);
                               },
-                              child: const Padding(
+                              child:  Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Align(
                                   alignment: Alignment.bottomCenter,
@@ -156,12 +157,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     Const.alreadyHaveAccount,
                                     style: TextStyle(
                                         shadows: [
-                                          Shadow(color: AppColors.primary, offset: Offset(0, -1))
+                                          Shadow(color: theme.textColors.primary, offset: Offset(0, -1))
                                         ],
                                         fontWeight: FontWeight.bold,
                                         color: Colors.transparent,
                                         decoration: TextDecoration.underline,
-                                        decorationColor: AppColors.primary,
+                                        decorationColor: theme.textColors.primary,
                                         decorationThickness: 2),
                                     textAlign: TextAlign.center,
                                   ),

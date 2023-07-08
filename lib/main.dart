@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:job_app/models/navigation.dart';
 import 'package:job_app/provider/navigation_provider.dart';
+import 'package:job_app/provider/theme.dart';
 import 'package:job_app/provider/user.dart';
 import 'package:job_app/resources/colors.dart';
 import 'package:job_app/resources/fonts.dart';
@@ -15,10 +16,10 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: AppColors.white,
-    statusBarIconBrightness: Brightness.dark
-  ));
+  // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+  //   statusBarColor: AppColors.white,
+  //   statusBarIconBrightness: Brightness.dark
+  // ));
   runApp(const MyApp());
 }
 
@@ -31,14 +32,14 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<NavigationProvider>(create:(_)=> NavigationProvider()),
-        ChangeNotifierProvider<UserProvider>(create: (_)=> UserProvider())
+        ChangeNotifierProvider<UserProvider>(create: (_)=> UserProvider()),
+        ChangeNotifierProvider<ThemeProvider>(create: (_)=> ThemeProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           fontFamily: Fonts.dmSans,
-          primarySwatch: Colors.blue,
         ),
         home: const MainPage(),
       ),

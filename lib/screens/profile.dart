@@ -38,19 +38,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final double appBarHeight = AppBar().preferredSize.height;
     final statusBarHeight = MediaQuery.of(context).viewPadding.top;
     final UserProfile user = widget.userProfile;
-
+    final theme = CommonUtils.getCustomTheme(context);
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: theme.bgColors.primary,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: theme.bgColors.primary,
         elevation: 0,
         leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: IconButton(
-            icon: Image.asset(ImagesRepo.backIcon),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          child: Container(
+            decoration: BoxDecoration(
+                color: theme.commonColors.primary,
+                borderRadius: BorderRadius.circular(6)
+            ),
+            child: IconButton(
+              icon: Image.asset(ImagesRepo.backIcon),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ),
         ),
       ),
@@ -77,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: ClipOval(
                                 child: isEditMode
                                     ? Container(
-                                        color: AppColors.orange,
+                                        color: theme.bgColors.primary,
                                         child: Stack(children: [
                                           FadeInImage.assetNetwork(
                                             placeholder:
@@ -117,8 +123,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       padding: const EdgeInsets.only(top: 10),
                       child: Text(
                         "${user.firstName} ${user.lastName}",
-                        style: const TextStyle(
-                            color: AppColors.primary,
+                        style:  TextStyle(
+                            color: theme.textColors.primary,
                             fontWeight: FontWeight.bold,
                             fontSize: 24),
                       ),
@@ -161,9 +167,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                     borderRadius: 15,
                     verticalPadding: 10,
-                    textColor: AppColors.white,
+                    textColor: theme.commonColors.primary,
                     textSize: 16,
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: theme.buttonColors.primary,
                   ),
                 ),
               ],

@@ -3,23 +3,38 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:job_app/models/user.dart';
 import 'package:job_app/provider/navigation_provider.dart';
+import 'package:job_app/provider/theme.dart';
 import 'package:job_app/resources/colors.dart';
 import 'package:job_app/resources/images.dart';
 import 'package:job_app/services/firebase_service.dart';
+import 'package:job_app/services/shared_preference.dart';
 import 'package:job_app/utils/common.dart';
 import 'package:provider/provider.dart';
 
 import '../models/navigation.dart';
 
-class CustomNavigationDrawer extends StatelessWidget {
+class CustomNavigationDrawer extends StatefulWidget {
   const CustomNavigationDrawer({Key? key}) : super(key: key);
 
   @override
+  State<CustomNavigationDrawer> createState() => _CustomNavigationDrawerState();
+}
+
+class _CustomNavigationDrawerState extends State<CustomNavigationDrawer> {
+  bool isDarkMode = false;
+  @override
+  void initState() {
+    getCurrentTheme();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+    final theme = CommonUtils.getCustomTheme(context);
     var statusBarHeight = MediaQuery.of(context).viewPadding.top;
     final UserProfile user = CommonUtils.getUser(context);
     final FirebaseService firebaseService = FirebaseService();
     return Drawer(
+      backgroundColor: theme.drawerColors.primary,
       child: SingleChildScrollView(
         child: ConstrainedBox(
           constraints:
@@ -52,10 +67,11 @@ class CustomNavigationDrawer extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 25),
                       child: Text("${user.firstName} ${user.lastName}",
-                        style: const TextStyle(
-                            color: AppColors.black,
+                        style:  TextStyle(
+                            color: theme.textColors.primary,
                             fontWeight: FontWeight.bold,
                             fontSize: 24),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                     const SizedBox(
@@ -69,22 +85,27 @@ class CustomNavigationDrawer extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             vertical: 4, horizontal: 16),
                         child: SwitchListTile(
-                          title: Text("Dark Theme"),
-                          value: false,
-                          onChanged: (bool value) {},
+                          title:  Text("Dark Theme", style: TextStyle(color: theme.textColors.primary),),
+                          value: isDarkMode,
+                          onChanged: (bool value) {
+                            setState(() {
+                              isDarkMode = value;
+                            });
+                            toggleTheme(context, value);
+                          },
                         ))
                   ],
                 ),
                 Column(
                   children: [
-                    const Divider(),
+                     Divider(color: theme.drawerColors.secondary,),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 4, horizontal: 16),
                       child: ListTile(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6)),
-                        title: const Text("logout"),
+                        title:  Text("logout", style: TextStyle(color: theme.drawerColors.secondary),),
                         onTap: () {
                           firebaseService.signOut();
                           switchToLoginPage(context);
@@ -106,6 +127,7 @@ class CustomNavigationDrawer extends StatelessWidget {
     final provider = Provider.of<NavigationProvider>(context);
     final currentItem = provider.navigationItem;
     final isSelected = item == currentItem;
+    final theme = CommonUtils.getCustomTheme(context);
     return Material(
       color: Colors.transparent,
       child: Padding(
@@ -113,9 +135,9 @@ class CustomNavigationDrawer extends StatelessWidget {
         child: ListTile(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
           selected: isSelected,
-          selectedTileColor: AppColors.primary,
-          selectedColor: AppColors.white,
-          title: Text(title),
+          selectedTileColor: theme.drawerColors.selected,
+          selectedColor: isSelected? theme.drawerColors.selectedText :theme.drawerColors.secondary,
+          title: Text(title, style: TextStyle(color: isSelected? theme.drawerColors.selectedText :theme.drawerColors.secondary),),
           onTap: () => selectItem(context, item),
         ),
       ),
@@ -130,5 +152,17 @@ class CustomNavigationDrawer extends StatelessWidget {
   void switchToLoginPage(BuildContext context) {
     final provider = Provider.of<NavigationProvider>(context, listen: false);
     provider.setNavigationItem(NavigationItem.login);
+  }
+
+  void toggleTheme(BuildContext context, bool isDarkMode){
+    final provider = Provider.of<ThemeProvider>(context, listen: false);
+    provider.setTheme(isDarkMode);
+  }
+
+  void getCurrentTheme()async{
+    String status = await SharedPreferenceService.readData('theme');
+    setState(() {
+      isDarkMode = status == "dark"? true: false;
+    });
   }
 }

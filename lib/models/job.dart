@@ -28,20 +28,23 @@ class Job {
   });
 
   factory Job.fromDocument(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>?;
+
     return Job(
-      employerName: doc['employer_name'] ?? "",
-      employerLogo: doc['employer_logo'] ?? "",
-      jobId: doc['job_id'] ?? "",
-      jobEmploymentType: doc['job_employment_type'] ?? "",
-      jobTitle: doc['job_title'] ?? "",
-      jobApplyLink: doc['job_apply_link'] ?? "",
-      jobDescription: doc['job_description'] ?? "",
-      jobCountry: doc['job_country'] ?? "",
-      jobGoogleLink: doc['job_google_link'] ?? "",
-      jobHighlights: JobHighlights.fromMap(doc['job_highlights']),
-      jobPostedAtTimestamp: doc['job_posted_at_timestamp']
+      employerName: data != null && data.containsKey('employer_name') ? data['employer_name'] : "",
+      employerLogo: data != null && data.containsKey('employer_logo') ? data['employer_logo'] : "",
+      jobId: data != null && data.containsKey('job_id') ? data['job_id'] : "",
+      jobEmploymentType: data != null && data.containsKey('job_employment_type') ? data['job_employment_type'] : "",
+      jobTitle: data != null && data.containsKey('job_title') ? data['job_title'] : "",
+      jobApplyLink: data != null && data.containsKey('job_apply_link') ? data['job_apply_link'] : "",
+      jobDescription: data != null && data.containsKey('job_description') ? data['job_description'] : "",
+      jobCountry: data != null && data.containsKey('job_country') ? data['job_country'] : "",
+      jobGoogleLink: data != null && data.containsKey('job_google_link') ? data['job_google_link'] : "",
+      jobHighlights: data != null && data.containsKey('job_highlights') ? JobHighlights.fromMap(data['job_highlights']) : null,
+      jobPostedAtTimestamp: data != null && data.containsKey('job_posted_at_timestamp') ? data['job_posted_at_timestamp'] : 0,
     );
   }
+
 
   factory Job.fromJson(Map<String, dynamic> json) {
     return Job(

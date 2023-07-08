@@ -28,9 +28,10 @@ class _SavedJobsScreenState extends State<SavedJobsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = CommonUtils.getCustomTheme(context);
     return Scaffold(
       key: _scaffoldSaveJobKey,
-      backgroundColor: AppColors.white,
+      backgroundColor: theme.bgColors.primary,
       appBar: CustomAppBar(
         scaffoldKey: _scaffoldSaveJobKey,
         title: Const.savedJobs,
@@ -86,6 +87,7 @@ class _SavedJobsScreenState extends State<SavedJobsScreen> {
   }
 
   Widget buildSavedJobsList(BuildContext context, List<Job> savedJobList) {
+    final theme = CommonUtils.getCustomTheme(context);
     return SizedBox(
       height: CommonUtils.getDeviceHeight(context),
       child: SingleChildScrollView(
@@ -115,11 +117,11 @@ class _SavedJobsScreenState extends State<SavedJobsScreen> {
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            color: AppColors.white,
-                            boxShadow: const [
+                            color: theme.cardColors.card,
+                            boxShadow: [
                               BoxShadow(
-                                offset: Offset(0, 2),
-                                color: AppColors.lightAsh,
+                                offset: const Offset(1, 1),
+                                color: theme.uiColors.disabled,
                                 blurRadius: 4.0,
                                 spreadRadius: 0.4,
                               )
@@ -163,8 +165,8 @@ class _SavedJobsScreenState extends State<SavedJobsScreen> {
                                   children: [
                                     Text(
                                       item.jobTitle ?? "",
-                                      style: const TextStyle(
-                                        color: AppColors.primary,
+                                      style:  TextStyle(
+                                        color: theme.textColors.primary,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
                                       ),
@@ -172,8 +174,8 @@ class _SavedJobsScreenState extends State<SavedJobsScreen> {
                                     ),
                                     Text(
                                       item.jobEmploymentType ?? "",
-                                      style: const TextStyle(
-                                        color: AppColors.lightAsh,
+                                      style:  TextStyle(
+                                        color: theme.textColors.label,
                                         fontSize: 12,
                                       ),
                                       overflow: TextOverflow.ellipsis,

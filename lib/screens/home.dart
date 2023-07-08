@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:job_app/resources/colors.dart';
 import 'package:job_app/resources/fonts.dart';
+import 'package:job_app/utils/common.dart';
 import 'package:job_app/widgets/custom_app_bar.dart';
 import 'package:job_app/widgets/navigation_drawer.dart';
 import 'package:job_app/widgets/nearby_jobs.dart';
@@ -19,9 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = CommonUtils.getCustomTheme(context);
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: AppColors.white,
+      backgroundColor: theme.bgColors.primary,
       appBar: CustomAppBar(
         scaffoldKey: _scaffoldKey,
         displayProfile: true,

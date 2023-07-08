@@ -20,23 +20,24 @@ class _WelcomeComponentState extends State<WelcomeComponent> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = CommonUtils.getCustomTheme(context);
     UserProfile user = CommonUtils.getUser(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "${Const.hello} ${user.firstName}",
-          style: const TextStyle(
+          style:  TextStyle(
             fontSize: 24,
-            color: AppColors.primary,
+            color: theme.textColors.secondary,
           ),
           textAlign: TextAlign.start,
         ),
-        const Text(
+         Text(
           Const.findYourJob,
           style: TextStyle(
               fontSize: 26,
-              color: AppColors.primary,
+              color: theme.textColors.primary,
               fontWeight: FontWeight.bold),
         ),
         Padding(
@@ -48,12 +49,12 @@ class _WelcomeComponentState extends State<WelcomeComponent> {
                   padding: const EdgeInsets.only(right: 10),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: theme.bgColors.primary,
                       borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: const [
+                      boxShadow:  [
                         BoxShadow(
-                          offset: Offset(0, 2),
-                          color: AppColors.lightAsh,
+                          offset: const Offset(1, 1),
+                          color: theme.uiColors.disabled,
                           blurRadius: 4.0,
                           spreadRadius: 0.4,
                         )
@@ -63,14 +64,14 @@ class _WelcomeComponentState extends State<WelcomeComponent> {
                       onChanged: (val) {},
                       keyboardType: TextInputType.text,
                       controller: searchController,
-                      decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
+                      decoration:  InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
                             vertical: 0.0, horizontal: 20.0),
                         border: InputBorder.none,
                         hintText: Const.whatAreYouLooking,
                         hintStyle: TextStyle(
                           fontWeight: FontWeight.normal,
-                          color: AppColors.lightAsh,
+                          color: theme.textColors.label,
                         ),
                       ),
                     ),
@@ -79,6 +80,7 @@ class _WelcomeComponentState extends State<WelcomeComponent> {
               ),
               GestureDetector(
                 onTap: (){
+                  FocusScope.of(context).unfocus();
                   if(searchController.text != ""){
                     moveToSearchPage(context, searchController.text);
                   }
@@ -86,7 +88,7 @@ class _WelcomeComponentState extends State<WelcomeComponent> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppColors.orangeCream,
+                    color: theme.bgColors.tertiary,
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: ColorFiltered(
@@ -123,19 +125,19 @@ class _WelcomeComponentState extends State<WelcomeComponent> {
                   padding:  EdgeInsets.only(top: 8, bottom: 8, right: 8, left: index == 0? 0: 8),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: AppColors.white,
+                      color: theme.bgColors.primary,
                       borderRadius: BorderRadius.circular(16.0),
                       border: Border.all(
                         color: selectedJobType == item
-                            ? AppColors.black
-                            : AppColors.lightAsh,
+                            ? theme.uiColors.secondary
+                            : theme.uiColors.disabled,
                       ),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(
                           left: 10, right: 10, top: 5, bottom: 5),
                       child: Center(child: Text(item, style: TextStyle(
-                        color: selectedJobType == item ? AppColors.black: AppColors.lightAsh
+                        color: selectedJobType == item ? theme.uiColors.secondary: theme.uiColors.disabled
                       ),)),
                     ),
                   ),

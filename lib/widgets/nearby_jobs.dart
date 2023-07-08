@@ -17,6 +17,7 @@ class NearbyJobsComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = CommonUtils.getCustomTheme(context);
     return BlocProvider<JobsBloc>(
         create: (BuildContext context) => JobsBloc(),
         child: BlocBuilder<JobsBloc, JobState>(
@@ -28,18 +29,18 @@ class NearbyJobsComponent extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children:  [
                       Text(
                         Const.nearbyJobs,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.primary,
+                            color: theme.textColors.primary,
                             fontSize: 20),
                       ),
                       Text(Const.seeAll,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: AppColors.lightAsh,
+                              color: theme.uiColors.disabled,
                               fontSize: 16))
                     ],
                   ),
@@ -54,24 +55,24 @@ class NearbyJobsComponent extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children:  [
                       Text(
                         Const.nearbyJobs,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.primary,
+                            color: theme.textColors.primary,
                             fontSize: 20),
                       ),
                       Text(Const.seeAll,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: AppColors.lightAsh,
+                              color: theme.uiColors.disabled,
                               fontSize: 16))
                     ],
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(Const.loadingError),
+                   Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(Const.loadingError, style: TextStyle(color: theme.textColors.primary),),
                   )
                 ],
               );
@@ -81,18 +82,18 @@ class NearbyJobsComponent extends StatelessWidget {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children:  [
                     Text(
                       Const.nearbyJobs,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
+                          color: theme.textColors.primary,
                           fontSize: 20),
                     ),
                     Text(Const.seeAll,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.lightAsh,
+                            color: theme.uiColors.disabled,
                             fontSize: 16))
                   ],
                 ),
@@ -103,17 +104,18 @@ class NearbyJobsComponent extends StatelessWidget {
   }
 
   Widget buildNearbyJobList(BuildContext context, List<Job> jobList) {
+    final theme = CommonUtils.getCustomTheme(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children:  [
-            const Text(
+             Text(
               Const.nearbyJobs,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: AppColors.primary,
+                color: theme.textColors.primary,
                 fontSize: 20,
               ),
             ),
@@ -121,11 +123,11 @@ class NearbyJobsComponent extends StatelessWidget {
               onTap: (){
                 moveToSeeAllScreen(context, Const.nearbyJobs);
               },
-              child: const Text(
+              child:  Text(
                 Const.seeAll,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: AppColors.lightAsh,
+                  color: theme.uiColors.disabled,
                   fontSize: 16,
                 ),
               ),
@@ -150,11 +152,11 @@ class NearbyJobsComponent extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: AppColors.white,
-                    boxShadow: const [
+                    color: theme.cardColors.card,
+                    boxShadow:  [
                       BoxShadow(
-                        offset: Offset(0, 2),
-                        color: AppColors.lightAsh,
+                        offset: const Offset(1, 1),
+                        color: theme.uiColors.disabled,
                         blurRadius: 4.0,
                         spreadRadius: 0.4,
                       )
@@ -198,8 +200,8 @@ class NearbyJobsComponent extends StatelessWidget {
                           children: [
                             Text(
                               item.jobTitle ?? "",
-                              style: const TextStyle(
-                                color: AppColors.primary,
+                              style:  TextStyle(
+                                color: theme.textColors.primary,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
@@ -207,8 +209,8 @@ class NearbyJobsComponent extends StatelessWidget {
                             ),
                             Text(
                               item.jobEmploymentType ?? "",
-                              style: const TextStyle(
-                                color: AppColors.lightAsh,
+                              style:  TextStyle(
+                                color: theme.uiColors.disabled,
                                 fontSize: 12,
                               ),
                               overflow: TextOverflow.ellipsis,

@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = CommonUtils.getCustomTheme(context);
     return BlocProvider<LoginBloc>(
       create: (BuildContext context) => LoginBloc(),
       child: BlocBuilder<LoginBloc, LoginState>(
@@ -38,21 +39,21 @@ class _LoginScreenState extends State<LoginScreen> {
             listener: (BuildContext context, LoginState state) {
               if (state is LoginInProgress) {}
               else if (state is LoginCompleted) {
-                WidgetsBinding.instance!
+                WidgetsBinding.instance
                     .addPostFrameCallback((timeStamp) {
                   CommonUtils.setUserDetails(context);
                   moveToHomePage(context);
                 });
               }
               else if (state is LoginError) {
-                WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   SnackBar snackBar = SnackBar(
                     content: Text(
                       state.error,
                       style:
-                      const TextStyle(fontSize: 12, color: AppColors.white),
+                       TextStyle(fontSize: 12, color: theme.commonColors.primary),
                     ),
-                    backgroundColor: AppColors.red,
+                    backgroundColor: theme.commonColors.error,
                     duration: const Duration(milliseconds: 2000),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -60,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
               }
             },
             child: Scaffold(
-                backgroundColor: AppColors.white,
+                backgroundColor: theme.bgColors.primary,
                 body: Center(
                   child: SingleChildScrollView(
                     child: ConstrainedBox(
@@ -123,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   verticalPadding: 10,
                                   textColor: AppColors.white,
                                   textSize: 16,
-                                  backgroundColor: AppColors.primary,
+                                  backgroundColor: AppColors.purple,
                                 ),
                               ),
                             ],
@@ -133,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onTap: () {
                             moveToSignUpPage();
                           },
-                          child: const Padding(
+                          child:  Padding(
                             padding: EdgeInsets.only(bottom: 30),
                             child: Align(
                                 alignment: Alignment.bottomCenter,
@@ -142,13 +143,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: TextStyle(
                                       shadows: [
                                         Shadow(
-                                            color: AppColors.primary,
-                                            offset: Offset(0, -1))
+                                            color: theme.textColors.primary,
+                                            offset: const Offset(0, -1))
                                       ],
                                       fontWeight: FontWeight.bold,
                                       color: Colors.transparent,
                                       decoration: TextDecoration.underline,
-                                      decorationColor: AppColors.primary,
+                                      decorationColor: theme.textColors.primary,
                                       decorationThickness: 2),
                                   textAlign: TextAlign.center,
                                 )),

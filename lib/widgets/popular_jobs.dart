@@ -17,6 +17,7 @@ class PopularJobsComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = CommonUtils.getCustomTheme(context);
     return BlocProvider<JobsBloc>(
       create: (BuildContext context) => JobsBloc(),
       child: BlocBuilder<JobsBloc, JobState>(
@@ -28,18 +29,18 @@ class PopularJobsComponent extends StatelessWidget {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children:  [
                     Text(
                       Const.popularJobs,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
+                          color: theme.textColors.primary,
                           fontSize: 20),
                     ),
-                    Text(Const.seeAll,
+                     Text(Const.seeAll,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.lightAsh,
+                            color: theme.uiColors.disabled,
                             fontSize: 16))
                   ],
                 ),
@@ -54,24 +55,24 @@ class PopularJobsComponent extends StatelessWidget {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Text(
                       Const.popularJobs,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
+                          color: theme.textColors.primary,
                           fontSize: 20),
                     ),
                     Text(Const.seeAll,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.lightAsh,
+                            color: theme.uiColors.disabled,
                             fontSize: 16))
                   ],
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(Const.loadingError),
+                 Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(Const.loadingError, style: TextStyle(color: theme.textColors.primary),),
                 )
               ],
             );
@@ -81,18 +82,18 @@ class PopularJobsComponent extends StatelessWidget {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children:  [
                   Text(
                     Const.popularJobs,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                        color: theme.textColors.primary,
                         fontSize: 20),
                   ),
                   Text(Const.seeAll,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.lightAsh,
+                          color: theme.uiColors.disabled,
                           fontSize: 16))
                 ],
               ),
@@ -104,27 +105,28 @@ class PopularJobsComponent extends StatelessWidget {
   }
 
   Widget buildPopularJobList(BuildContext context, List<Job> jobList) {
+    final theme = CommonUtils.getCustomTheme(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
+             Text(
               Const.popularJobs,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primary,
+                  color: theme.textColors.primary,
                   fontSize: 20),
             ),
             GestureDetector(
               onTap: () {
                 moveToSeeAllScreen(context, Const.popularJobs);
               },
-              child: const Text(Const.seeAll,
+              child:  Text(Const.seeAll,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.lightAsh,
+                      color: theme.uiColors.disabled,
                       fontSize: 16)),
             )
           ],
@@ -150,11 +152,11 @@ class PopularJobsComponent extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
-                      color: AppColors.white,
-                      boxShadow: const [
+                      color: theme.cardColors.card,
+                      boxShadow:  [
                         BoxShadow(
-                          offset: Offset(0, 2),
-                          color: AppColors.lightAsh,
+                          offset: const Offset(1, 1),
+                          color: theme.uiColors.disabled,
                           blurRadius: 4.0,
                           spreadRadius: 0.4,
                         )
@@ -197,8 +199,8 @@ class PopularJobsComponent extends StatelessWidget {
                             child: Text(
                               jobList[index].employerName ?? "",
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: AppColors.lightAsh,
+                              style:  TextStyle(
+                                color: theme.uiColors.disabled,
                                 fontSize: 16,
                               ),
                             ),
@@ -211,15 +213,15 @@ class PopularJobsComponent extends StatelessWidget {
                           Text(
                             item.jobTitle ?? "",
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                color: AppColors.primary,
+                            style:  TextStyle(
+                                color: theme.textColors.primary,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
                             item.jobCountry ?? "",
-                            style: const TextStyle(
-                              color: AppColors.lightAsh,
+                            style:  TextStyle(
+                              color: theme.uiColors.disabled,
                               fontSize: 16,
                             ),
                           )

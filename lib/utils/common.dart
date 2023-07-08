@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:job_app/models/theme.dart';
 import 'package:job_app/models/user.dart';
+import 'package:job_app/provider/theme.dart';
 import 'package:job_app/provider/user.dart';
 import 'package:provider/provider.dart';
 
@@ -31,6 +33,11 @@ class CommonUtils {
     final provider = Provider.of<UserProvider>(context);
     final user = provider.userProfile;
     return user;
+  }
+
+  static CustomThemeData getCustomTheme(BuildContext context){
+    final provider = Provider.of<ThemeProvider>(context);
+    return provider.customTheme;
   }
 
 }

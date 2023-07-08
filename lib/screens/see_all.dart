@@ -29,16 +29,34 @@ class _SeeAllJobsScreenState extends State<SeeAllJobsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = CommonUtils.getCustomTheme(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: theme.bgColors.primary,
         elevation: 0,
         title: Text(
           widget.title,
-          style: const TextStyle(color: AppColors.primary),
+          style:  TextStyle(color: theme.textColors.primary),
+        ),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: theme.commonColors.primary,
+                  borderRadius: BorderRadius.circular(6)
+              ),
+              child: IconButton(
+                icon: Image.asset(ImagesRepo.backIcon),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ),
         ),
       ),
-      backgroundColor: AppColors.white,
+      backgroundColor: theme.bgColors.primary,
       body: SingleChildScrollView(
         child: BlocProvider<JobsBloc>(
           create: (BuildContext context) => JobsBloc(),
@@ -89,6 +107,7 @@ class _SeeAllJobsScreenState extends State<SeeAllJobsScreen> {
   }
 
   Widget buildJobList(BuildContext context, List<Job> jobList) {
+    final theme = CommonUtils.getCustomTheme(context);
     return SizedBox(
       width: CommonUtils.getDeviceWidth(context),
       child: Column(
@@ -112,11 +131,11 @@ class _SeeAllJobsScreenState extends State<SeeAllJobsScreen> {
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
-                      color: AppColors.white,
-                      boxShadow: const [
+                      color: theme.cardColors.card,
+                      boxShadow:  [
                         BoxShadow(
-                          offset: Offset(0, 2),
-                          color: AppColors.lightAsh,
+                          offset: const Offset(1, 1),
+                          color: theme.uiColors.disabled,
                           blurRadius: 4.0,
                           spreadRadius: 0.4,
                         )
@@ -160,8 +179,8 @@ class _SeeAllJobsScreenState extends State<SeeAllJobsScreen> {
                             children: [
                               Text(
                                 item.jobTitle ?? "",
-                                style: const TextStyle(
-                                  color: AppColors.primary,
+                                style:  TextStyle(
+                                  color: theme.textColors.primary,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                 ),
@@ -169,8 +188,8 @@ class _SeeAllJobsScreenState extends State<SeeAllJobsScreen> {
                               ),
                               Text(
                                 item.jobEmploymentType ?? "",
-                                style: const TextStyle(
-                                  color: AppColors.lightAsh,
+                                style:  TextStyle(
+                                  color: theme.textColors.label,
                                   fontSize: 12,
                                 ),
                                 overflow: TextOverflow.ellipsis,
