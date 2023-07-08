@@ -17,6 +17,10 @@ class Const {
   //profile screen
   static const editProfile = "Edit Profile";
   static const saveChanges = "Save Changes";
+  static const changeProfile = "Change profile picture";
+  static const useCamera = "Use camera";
+  static const useFile = "Upload from files";
+  static const cancel = "Cancel";
 
   //welcome component
   static const hello = "Hello";

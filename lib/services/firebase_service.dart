@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:job_app/models/job.dart';
 
@@ -11,6 +14,7 @@ class FirebaseService {
       FirebaseFirestore.instance.collection("Users");
   final CollectionReference jobRef =
       FirebaseFirestore.instance.collection("Jobs");
+  final storageRef = FirebaseStorage.instance.ref();
 
   Future<String?> loginUser(String email, String password) async {
     try {
@@ -153,7 +157,29 @@ class FirebaseService {
     });
   }
 
+  Future<void> updateUserProfileImage(String imageUrl)async{
+    await userRef.doc(getUserId()).update({
+      "imageUrl": imageUrl,
+    });
+  }
+
   String getUserId() {
     return firebaseAuth.currentUser!.uid;
+  }
+
+  Future<String?> uploadImage(File file)async{
+    try {
+      final fileName = file.path.split('/').last;
+      final jobAppImageRef = storageRef.child('upload/job_app/$fileName');
+      await jobAppImageRef.putFile(file);
+
+      final imageUrl = await jobAppImageRef.getDownloadURL();
+      return imageUrl;
+    } on FirebaseException catch (e) {
+      if(kDebugMode){
+        print(e);
+      }
+      return null;
+    }
   }
 }

@@ -1,4 +1,10 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:job_app/models/image.dart';
+import 'package:job_app/models/theme.dart';
 import 'package:job_app/models/user.dart';
 import 'package:job_app/resources/colors.dart';
 import 'package:job_app/resources/const.dart';
@@ -6,6 +12,7 @@ import 'package:job_app/resources/images.dart';
 import 'package:job_app/services/firebase_service.dart';
 import 'package:job_app/utils/common.dart';
 import 'package:job_app/widgets/profile_field.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../widgets/custom_button.dart';
 
@@ -23,6 +30,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final emailController = TextEditingController();
   final mobileController = TextEditingController();
   bool isEditMode = false;
+  File? image;
+  late String imageUrl;
 
   @override
   void initState() {
@@ -30,6 +39,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     lastNameController.text = widget.userProfile.lastName;
     emailController.text = widget.userProfile.email;
     mobileController.text = widget.userProfile.mobile;
+    imageUrl =
+        widget.userProfile.imageUrl != null && widget.userProfile.imageUrl != ""
+            ? widget.userProfile.imageUrl!
+            : "";
     super.initState();
   }
 
@@ -49,8 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Container(
             decoration: BoxDecoration(
                 color: theme.commonColors.primary,
-                borderRadius: BorderRadius.circular(6)
-            ),
+                borderRadius: BorderRadius.circular(6)),
             child: IconButton(
               icon: Image.asset(ImagesRepo.backIcon),
               onPressed: () {
@@ -82,31 +94,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               radius: 80,
                               child: ClipOval(
                                 child: isEditMode
-                                    ? Container(
-                                        color: theme.bgColors.primary,
-                                        child: Stack(children: [
-                                          FadeInImage.assetNetwork(
-                                            placeholder:
-                                                ImagesRepo.defaultProfile,
-                                            image: user.imageUrl!,
-                                            fit: BoxFit.cover,
-                                            width: 160,
-                                            height: 160,
-                                          ),
-                                          Container(
-                                            width: 160,
-                                            height: 160,
-                                            color: Colors.black.withOpacity(
-                                                0.4), // Adjust the opacity as needed
-                                          ),
-                                          Center(
-                                              child: Image.asset(
-                                                  ImagesRepo.camera))
-                                        ]),
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          showBottomSheetTest(theme);
+                                        },
+                                        child: Container(
+                                          color: theme.bgColors.primary,
+                                          child: Stack(children: [
+                                            FadeInImage.assetNetwork(
+                                              placeholder:
+                                                  ImagesRepo.defaultProfile,
+                                              image: imageUrl,
+                                              fit: BoxFit.cover,
+                                              width: 160,
+                                              height: 160,
+                                            ),
+                                            Container(
+                                              width: 160,
+                                              height: 160,
+                                              color: Colors.black.withOpacity(
+                                                  0.4), // Adjust the opacity as needed
+                                            ),
+                                            Center(
+                                                child: Image.asset(
+                                                    ImagesRepo.camera))
+                                          ]),
+                                        ),
                                       )
                                     : FadeInImage.assetNetwork(
                                         placeholder: ImagesRepo.defaultProfile,
-                                        image: user.imageUrl!,
+                                        image: imageUrl,
                                         fit: BoxFit.cover,
                                         width: 160,
                                         height: 160,
@@ -123,7 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       padding: const EdgeInsets.only(top: 10),
                       child: Text(
                         "${user.firstName} ${user.lastName}",
-                        style:  TextStyle(
+                        style: TextStyle(
                             color: theme.textColors.primary,
                             fontWeight: FontWeight.bold,
                             fontSize: 24),
@@ -178,6 +195,130 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  void showBottomSheetTest(CustomThemeData theme) {
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          return Wrap(children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+              child: Container(
+                color: Colors.transparent,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: theme.drawerColors.primary,
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Text(
+                              Const.changeProfile,
+                              style: TextStyle(
+                                  fontSize: 14, color: theme.textColors.label),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Divider(
+                            color: theme.uiColors.disabled,
+                          ),
+                          ListTile(
+                            title: Center(
+                                child: Text(
+                              Const.useCamera,
+                              style: TextStyle(color: theme.textColors.primary),
+                            )),
+                            onTap: () {
+                              Navigator.pop(context);
+                              pickImage(ImageItem.camera);
+                            },
+                          ),
+                          Divider(
+                            color: theme.uiColors.disabled,
+                          ),
+                          ListTile(
+                            title: Center(
+                                child: Text(
+                              Const.useFile,
+                              style: TextStyle(color: theme.textColors.primary),
+                            )),
+                            onTap: () {
+                              Navigator.pop(context);
+                              pickImage(ImageItem.file);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      color: Colors.transparent,
+                      height: 10,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: theme.drawerColors.primary,
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          ListTile(
+                            title: Center(
+                                child: Text(
+                              Const.cancel,
+                              style: TextStyle(color: theme.commonColors.error),
+                            )),
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ]);
+        });
+  }
+
+  Future pickImage(ImageItem imageItem) async {
+    try {
+      final image = await ImagePicker().pickImage(
+          source: imageItem == ImageItem.camera
+              ? ImageSource.camera
+              : ImageSource.gallery);
+
+      if (image == null) return;
+
+      final imageTemp = File(image.path);
+
+      setState(() => this.image = imageTemp);
+      uploadImage();
+    } on PlatformException catch (e) {
+      if (kDebugMode) {
+        print('Failed to pick image: $e');
+      }
+    }
+  }
+
+  Future<void> uploadImage() async {
+    FirebaseService firebaseService = FirebaseService();
+    String? uploadedImageUrl = await firebaseService.uploadImage(image!);
+    if(uploadedImageUrl != null){
+      await firebaseService.updateUserProfileImage(uploadedImageUrl);
+      setState(() {
+        imageUrl = uploadedImageUrl;
+      });
+      CommonUtils.setUserDetails(context);
+    }
   }
 
   void toggleEditMode(BuildContext context) {

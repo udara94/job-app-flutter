@@ -1,0 +1,4 @@
+enum ImageItem{
+  camera,
+  file
+}
