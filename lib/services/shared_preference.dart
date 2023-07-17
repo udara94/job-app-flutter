@@ -22,6 +22,7 @@ class SharedPreferenceService {
   static Future<dynamic> readData(String key) async {
     final prefs = await SharedPreferences.getInstance();
     dynamic obj = prefs.get(key);
+    obj ??= "light";
     return obj;
   }
 
