@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:job_app/bloc/jobs/save_job_event.dart';
 import 'package:job_app/bloc/jobs/save_job_state.dart';
 import 'package:job_app/resources/colors.dart';
@@ -43,16 +44,18 @@ class _SavedJobsScreenState extends State<SavedJobsScreen> {
             if (state is FetchSaveJobsEmpty) {
               getSavedJobs(context);
             } else if (state is FetchSaveJobsInProgress) {
+              CommonUtils.showLoading();
               return SizedBox(
                 width: CommonUtils.getDeviceWidth(context),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                    CircularProgressIndicator(),
+                    //CircularProgressIndicator(),
                   ],
                 ),
               );
             } else if (state is FetchSaveJobsCompleted) {
+              EasyLoading.dismiss();
               return RefreshIndicator(
                   key: _refreshIndicatorKey,
                   onRefresh: ()async{
@@ -60,6 +63,7 @@ class _SavedJobsScreenState extends State<SavedJobsScreen> {
                   },
                   child: buildSavedJobsList(context, state.savedJobList));
             } else if (state is FetchSaveJobsError) {
+              EasyLoading.dismiss();
               return SizedBox(
                 width: CommonUtils.getDeviceWidth(context),
                 child: Column(

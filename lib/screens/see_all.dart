@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:job_app/bloc/jobs/jobs_bloc.dart';
 import 'package:job_app/bloc/jobs/jobs_state.dart';
 import 'package:job_app/services/firebase_service.dart';
@@ -65,23 +66,26 @@ class _SeeAllJobsScreenState extends State<SeeAllJobsScreen> {
               if (state is JobsEmpty) {
                 BlocProvider.of<JobsBloc>(context).add(GetJobs(10, null, null));
               } else if (state is JobsInProgress) {
+                CommonUtils.showLoading();
                 return SizedBox(
                   width: CommonUtils.getDeviceWidth(context),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: const [
-                        CircularProgressIndicator(),
+                        //CircularProgressIndicator(),
                       ],
                     ),
                   ),
                 );
               } else if (state is JobsError) {
+                EasyLoading.dismiss();
                 return const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(Const.loadingError),
                 );
               } else if (state is JobsCompleted) {
+                EasyLoading.dismiss();
                 isMoveForward ? pageNumber++ : pageNumber--;
                 state.jobList.length < 10
                     ? allowMoveForward = false

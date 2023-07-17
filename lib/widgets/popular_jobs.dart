@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:job_app/bloc/jobs/jobs_bloc.dart';
 import 'package:job_app/bloc/jobs/jobs_event.dart';
 import 'package:job_app/bloc/jobs/jobs_state.dart';
@@ -25,6 +26,7 @@ class PopularJobsComponent extends StatelessWidget {
           if (state is JobsEmpty) {
             BlocProvider.of<JobsBloc>(context).add(GetJobs(10, null, null));
           } else if (state is JobsInProgress) {
+            CommonUtils.showLoading();
             return Column(
               children: [
                 Row(
@@ -44,12 +46,14 @@ class PopularJobsComponent extends StatelessWidget {
                             fontSize: 16))
                   ],
                 ),
-                const CircularProgressIndicator()
+                // const CircularProgressIndicator()
               ],
             );
           } else if (state is JobsCompleted) {
+            EasyLoading.dismiss();
             return buildPopularJobList(context, state.jobList);
           } else if (state is JobsError) {
+            EasyLoading.dismiss();
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

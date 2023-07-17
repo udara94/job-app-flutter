@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:job_app/bloc/jobs/save_job_bloc.dart';
 import 'package:job_app/bloc/jobs/save_job_event.dart';
 import 'package:job_app/bloc/jobs/save_job_state.dart';
@@ -352,9 +353,14 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                         child: BlocBuilder<SaveJobBloc, SaveJobState>(
                           builder: (BuildContext context, SaveJobState state){
                             if(state is FetchSaveJobsEmpty){
+
                               BlocProvider.of<SaveJobBloc>(context).add(IsJobSaved(item.jobId!));
                             }
+                            else if(state is IsSaveJobLoading){
+                              CommonUtils.showLoading();
+                            }
                             else if(state is IsSaveJobCompleted){
+                              EasyLoading.dismiss();
                               return  GestureDetector(
                                 onTap: (){
                                   _performJobSaveAction(context,item, state.isSaved);
@@ -372,6 +378,9 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                                   ),
                                 ),
                               );
+                            }
+                            else if(state is IsSaveJobError){
+                              EasyLoading.dismiss();
                             }
                             return ColorFiltered(
                               colorFilter: ColorFilter.mode(

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:job_app/models/image.dart';
 import 'package:job_app/models/theme.dart';
 import 'package:job_app/models/user.dart';
@@ -131,10 +132,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               //backgroundImage: NetworkImage(user.imageUrl!)
                             )
-                          : const CircleAvatar(
+                          :  CircleAvatar(
                               radius: 80,
-                              backgroundImage:
-                                  AssetImage(ImagesRepo.defaultProfile)),
+                        child: ClipOval(
+                          child: isEditMode ? GestureDetector(
+                            onTap: () {
+                              showBottomSheetTest(theme);
+                            },
+                            child: Stack(
+                              children: [
+                                Image.asset(ImagesRepo.defaultProfile),
+                                Container(
+                                  width: 160,
+                                  height: 160,
+                                  color: Colors.black.withOpacity(
+                                      0.4), // Adjust the opacity as needed
+                                ),
+                                Center(
+                                    child: Image.asset(
+                                        ImagesRepo.camera))
+                              ],
+                            ),
+                          ):Image.asset(ImagesRepo.defaultProfile),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
@@ -310,6 +331,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> uploadImage() async {
+    CommonUtils.showLoading();
     FirebaseService firebaseService = FirebaseService();
     String? uploadedImageUrl = await firebaseService.uploadImage(image!);
     if(uploadedImageUrl != null){
@@ -318,6 +340,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         imageUrl = uploadedImageUrl;
       });
       CommonUtils.setUserDetails(context);
+      EasyLoading.dismiss();
     }
   }
 
@@ -327,6 +350,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         lastNameController.text != "" &&
         mobileController.text != "" &&
         emailController.text != "") {
+      CommonUtils.showLoading();
       //update user on firebase
       UserProfile profile = UserProfile(
           firstName: firstNameController.text,
@@ -338,6 +362,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       FirebaseService firebaseService = FirebaseService();
       firebaseService.updateProfile(profile);
       CommonUtils.setUserDetails(context);
+      EasyLoading.dismiss();
     }
     setState(() {
       isEditMode = !isEditMode;

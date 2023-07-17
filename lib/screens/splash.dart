@@ -40,8 +40,9 @@ class _SplashScreenState extends State<SplashScreen> {
             BlocProvider.of<UserAuthBloc>(context)
                 .add(CheckUserAuthentication());
           }else if(state is UserAuthValid){
+            CommonUtils.setUserDetails(context);
             Future.delayed(const Duration(seconds: 3),(){
-              CommonUtils.setUserDetails(context);
+
               moveToHomePage(context);
             });
           }else if(state is UserAuthInvalid){

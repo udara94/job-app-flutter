@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:job_app/bloc/authentication/signup/signup_bloc.dart';
 import 'package:job_app/bloc/authentication/signup/signup_event.dart';
 import 'package:job_app/bloc/authentication/signup/signup_state.dart';
@@ -40,16 +41,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
           return BlocListener<SignUpBloc, SignUpState>(
             listener: (BuildContext context, SignUpState state){
               if(state is SignUpProgress){
-
+                CommonUtils.showLoading();
               }
               else if(state is SignUpCompleted){
+                EasyLoading.dismiss();
+                Navigator.pop(context);
                 WidgetsBinding.instance!
                     .addPostFrameCallback((timeStamp) {
                   CommonUtils.setUserDetails(context);
                   switchToHome(context);
                 });
               }else if(state is SignUpError){
-
+                EasyLoading.dismiss();
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                  SnackBar snackBar = SnackBar(
+                    content: Text(
+                      state.error,
+                      style:
+                      TextStyle(fontSize: 12, color: theme.commonColors.primary),
+                    ),
+                    backgroundColor: theme.commonColors.error,
+                    duration: const Duration(milliseconds: 2000),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                });
               }
             },
             child: Scaffold(

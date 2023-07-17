@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:job_app/bloc/authentication/login/login_bloc.dart';
 import 'package:job_app/bloc/authentication/login/login_event.dart';
 import 'package:job_app/bloc/authentication/login/login_state.dart';
@@ -37,8 +38,11 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (BuildContext context, LoginState state) {
           return BlocListener<LoginBloc, LoginState>(
             listener: (BuildContext context, LoginState state) {
-              if (state is LoginInProgress) {}
+              if (state is LoginInProgress) {
+                CommonUtils.showLoading();
+              }
               else if (state is LoginCompleted) {
+                EasyLoading.dismiss();
                 WidgetsBinding.instance
                     .addPostFrameCallback((timeStamp) {
                   CommonUtils.setUserDetails(context);
@@ -46,6 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 });
               }
               else if (state is LoginError) {
+                EasyLoading.dismiss();
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   SnackBar snackBar = SnackBar(
                     content: Text(

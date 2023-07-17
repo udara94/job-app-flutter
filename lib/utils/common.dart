@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:job_app/models/theme.dart';
 import 'package:job_app/models/user.dart';
 import 'package:job_app/provider/theme.dart';
 import 'package:job_app/provider/user.dart';
+import 'package:job_app/resources/const.dart';
 import 'package:provider/provider.dart';
+
+import '../resources/images.dart';
 
 class CommonUtils {
   CommonUtils._();
@@ -38,6 +42,19 @@ class CommonUtils {
   static CustomThemeData getCustomTheme(BuildContext context){
     final provider = Provider.of<ThemeProvider>(context);
     return provider.customTheme;
+  }
+
+  static void showLoading() {
+    EasyLoading.show(
+        indicator: Container(
+          child: Image.asset(
+            ImagesRepo.appLogo,
+            width: 50,
+            height: 50,
+          ),
+        ),
+        status: Const.loading,
+        maskType: EasyLoadingMaskType.custom);
   }
 
 }

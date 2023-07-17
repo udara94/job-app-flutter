@@ -48,4 +48,7 @@ class Const {
   //save job screen
   static const savedJobs = "Saved Jobs";
 
+  //loading
+  static const loading = "Loading";
+
 }
